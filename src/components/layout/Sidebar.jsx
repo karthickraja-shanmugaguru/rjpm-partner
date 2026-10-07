@@ -16,8 +16,15 @@ import {
 } from 'lucide-react'
 
 export const Sidebar = () => {
-  const { newEnquiryCount } = useProvider()
+  const { provider } = useProvider()
   const { t } = useLanguage()
+
+  const hasBiz = Boolean(provider?.businessName)
+  const hasPhone = Boolean(provider?.phone)
+  const hasServices = (provider?.services?.length > 0) || (provider?.experienceYears !== undefined)
+  const hasDesc = Boolean(provider?.about)
+  const completedCount = [hasBiz, hasPhone, hasServices, hasDesc].filter(Boolean).length
+  const profilePercent = completedCount * 25
 
   return (
     <aside className="sidebar">
@@ -72,8 +79,6 @@ export const Sidebar = () => {
         {t('myLabourStaff', 'My Labour Staff')}
       </NavLink>
 
-
-
       <div className="nav-label">{t('navInsights', 'Insights')}</div>
       <NavLink
         to="/reviews"
@@ -106,20 +111,32 @@ export const Sidebar = () => {
         {t('settings', 'Settings')}
       </NavLink>
 
-      <div className="sidebar-card">
-        <b>{t('completeProfile', 'Complete your profile')}</b>
-        <div className="progress">
-          <span style={{ width: '85%' }}></span>
+      {profilePercent >= 100 ? (
+        <div className="sidebar-card" style={{ background: '#f0fdf4', border: '1px solid #bbf7d0' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, color: '#166534', fontWeight: 700, fontSize: 13 }}>
+            <span>✓</span> {t('verifiedPartner', 'Verified Partner')}
+          </div>
+          <div className="progress" style={{ margin: '8px 0 6px', background: '#dcfce7' }}>
+            <span style={{ width: '100%', background: '#16a34a' }}></span>
+          </div>
+          <small style={{ color: '#15803d', fontWeight: 600 }}>100% {t('profileComplete', 'Profile Complete')}</small>
         </div>
-        <small className="muted">85% complete</small>
-        <Link
-          to="/profile"
-          className="btn btn-secondary"
-          style={{ width: '100%', marginTop: 10, textAlign: 'center' }}
-        >
-          {t('completeNow', 'Complete now')}
-        </Link>
-      </div>
+      ) : (
+        <div className="sidebar-card">
+          <b>{t('completeProfile', 'Complete your profile')}</b>
+          <div className="progress">
+            <span style={{ width: `${profilePercent || 75}%` }}></span>
+          </div>
+          <small className="muted">{profilePercent || 75}% {t('complete', 'complete')}</small>
+          <Link
+            to="/profile"
+            className="btn btn-secondary"
+            style={{ width: '100%', marginTop: 10, textAlign: 'center' }}
+          >
+            {t('completeNow', 'Complete now')}
+          </Link>
+        </div>
+      )}
     </aside>
   )
 }

@@ -5,7 +5,9 @@ const TRANSLATIONS = {
     // Brand
     productName: 'rjpm.in',
     portalTitle: 'rjpm.in Partner Portal',
-    providerPill: 'PROVIDER',
+    providerPill: 'PARTNER',
+    verifiedPartner: 'Verified Partner',
+    profileComplete: 'Profile Complete',
 
     // Nav Labels
     navBusiness: 'BUSINESS',
@@ -129,8 +131,10 @@ const TRANSLATIONS = {
   ta: {
     // Brand
     productName: 'rjpm.in',
-    portalTitle: 'rjpm.in விற்பனையாளர் தளம்',
-    providerPill: 'விற்பனையாளர்',
+    portalTitle: 'rjpm.in பார்ட்னர் தளம்',
+    providerPill: 'பார்ட்னர்',
+    verifiedPartner: 'சரிபார்க்கப்பட்ட பார்ட்னர்',
+    profileComplete: 'சுயவிவரம் முடிந்தது',
 
     // Nav Labels
     navBusiness: 'வணிகம்',

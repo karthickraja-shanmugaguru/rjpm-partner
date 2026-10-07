@@ -49,16 +49,16 @@ const BUSINESS_CATEGORIES = [
 ]
 
 const PRESET_LOCALITIES = [
-  'T. Nagar',
-  'Anna Nagar',
-  'Velachery',
-  'Adyar',
-  'Mylapore',
-  'Porur',
-  'Tambaram',
-  'OMR',
-  'ECR',
-  'All Chennai Localities',
+  'Tenkasi Road',
+  'PACR Road',
+  'Gandhi Kalai Mandram',
+  'Malaiyadi Street',
+  'Srivilliputhur Road',
+  'Alagapuri',
+  'Dhalavaipuram Road',
+  'Mudangiar Road',
+  'AMS Theatre Area',
+  'All Rajapalayam Areas',
 ]
 
 const RESPONSE_TIME_OPTIONS = [
@@ -81,7 +81,7 @@ export const ProfilePage = () => {
     about: '',
     phone: '',
     whatsapp: '',
-    city: 'Chennai',
+    city: 'Rajapalayam',
     yearsOfExperience: 10,
     completedEvents: 0,
     responseTime: 'Usually responds within 2 hours',
@@ -121,7 +121,7 @@ export const ProfilePage = () => {
             about: p.about || '',
             phone: p.phone || '',
             whatsapp: p.whatsapp || p.phone || '',
-            city: p.city || 'Chennai',
+            city: p.city || 'Rajapalayam',
             yearsOfExperience: p.experienceYears ?? p.yearsOfExperience ?? 10,
             completedEvents: p.completedEvents ?? 0,
             responseTime: p.responseTime || 'Usually responds within 2 hours',
@@ -543,7 +543,7 @@ export const ProfilePage = () => {
                 name="city"
                 value={formData.city}
                 onChange={handleInputChange}
-                placeholder="Chennai"
+                placeholder="Rajapalayam"
                 required
               />
             </div>
@@ -730,7 +730,7 @@ export const ProfilePage = () => {
           <div>
             <h3 style={{ margin: 0 }}>Service Localities</h3>
             <p className="muted" style={{ fontSize: 13, margin: '4px 0 0 0' }}>
-              Select the Chennai localities you serve. Customers filter by these areas on the marketplace.
+              Select the Rajapalayam localities you serve. Customers filter by these areas on the marketplace.
             </p>
           </div>
           <div style={{ display: 'flex', gap: 8 }}>
@@ -740,7 +740,7 @@ export const ProfilePage = () => {
               style={{ fontSize: 12, padding: '6px 12px' }}
               onClick={handleSelectAllPresets}
             >
-              <Check size={14} /> Select All Chennai Localities
+              <Check size={14} /> Select All Rajapalayam Localities
             </button>
             {serviceAreas.length > 0 && (
               <button
@@ -755,11 +755,11 @@ export const ProfilePage = () => {
           </div>
         </div>
 
-        {/* 1-Click Chennai Presets */}
+        {/* 1-Click Rajapalayam Presets */}
         <div style={{ marginTop: 16 }}>
           <div style={{ fontSize: 12, fontWeight: 700, color: '#475569', marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
             <MapPin size={14} color="#1a73e8" />
-            <span>Chennai Quick-Select Localities (Click to toggle):</span>
+            <span>Rajapalayam Quick-Select Localities (Click to toggle):</span>
           </div>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
             {PRESET_LOCALITIES.map((loc) => {

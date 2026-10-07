@@ -24,15 +24,19 @@ export const DashboardPage = () => {
     reviewsCount: 0,
   })
   const [packagesCount, setPackagesCount] = useState(0)
+  const [servicesList, setServicesList] = useState([])
+  const [packagesList, setPackagesList] = useState([])
   const [labourListings, setLabourListings] = useState([])
+  const [activeTab, setActiveTab] = useState('services')
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const fetchDashboardData = async () => {
       setLoading(true)
       try {
-        const [dashRes, labourRes, pkgRes] = await Promise.all([
+        const [dashRes, servicesRes, labourRes, pkgRes] = await Promise.all([
           providerService.getDashboard().catch(() => null),
+          providerService.getServices().catch(() => null),
           providerService.getLabourListings().catch(() => null),
           providerService.getPackages().catch(() => null),
         ])
@@ -45,11 +49,18 @@ export const DashboardPage = () => {
             reviewsCount: dStats.reviewCount || dStats.reviewsCount || 0,
           })
         }
+        if (servicesRes && servicesRes.data) {
+          const sList = Array.isArray(servicesRes.data) ? servicesRes.data : []
+          setServicesList(sList)
+          if (sList.length > 0) setActiveTab('services')
+        }
         if (labourRes && labourRes.data) {
-          setLabourListings(labourRes.data)
+          setLabourListings(Array.isArray(labourRes.data) ? labourRes.data : [])
         }
         if (pkgRes && pkgRes.data) {
-          setPackagesCount(Array.isArray(pkgRes.data) ? pkgRes.data.length : 0)
+          const pList = Array.isArray(pkgRes.data) ? pkgRes.data : []
+          setPackagesList(pList)
+          setPackagesCount(pList.length)
         }
       } finally {
         setLoading(false)
@@ -135,15 +146,75 @@ export const DashboardPage = () => {
 
       {/* Dashboard Grid */}
       <div className="dashboard-grid">
-        {/* Labour Staff Overview Card */}
+        {/* Business Listings Hub Card */}
         <div className="card">
-          <div className="card-head">
-            <h3>My Labour Staff</h3>
+          <div className="card-head" style={{ flexWrap: 'wrap', gap: 10, paddingBottom: 12 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+              <button
+                type="button"
+                onClick={() => setActiveTab('services')}
+                style={{
+                  padding: '6px 14px',
+                  borderRadius: 20,
+                  border: 'none',
+                  fontSize: 13,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  background: activeTab === 'services' ? 'var(--primary)' : '#f1f5f9',
+                  color: activeTab === 'services' ? '#fff' : 'var(--text-secondary)',
+                  transition: '0.2s',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                }}
+              >
+                <Wrench size={14} /> Services ({servicesList.length})
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('packages')}
+                style={{
+                  padding: '6px 14px',
+                  borderRadius: 20,
+                  border: 'none',
+                  fontSize: 13,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  background: activeTab === 'packages' ? 'var(--primary)' : '#f1f5f9',
+                  color: activeTab === 'packages' ? '#fff' : 'var(--text-secondary)',
+                  transition: '0.2s',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                }}
+              >
+                <Package size={14} /> Packages ({packagesList.length})
+              </button>
+              <button
+                type="button"
+                onClick={() => setActiveTab('labour')}
+                style={{
+                  padding: '6px 14px',
+                  borderRadius: 20,
+                  border: 'none',
+                  fontSize: 13,
+                  fontWeight: 600,
+                  cursor: 'pointer',
+                  background: activeTab === 'labour' ? 'var(--primary)' : '#f1f5f9',
+                  color: activeTab === 'labour' ? '#fff' : 'var(--text-secondary)',
+                  transition: '0.2s',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                }}
+              >
+                <Users size={14} /> Labour Staff ({labourListings.length})
+              </button>
+            </div>
+
             <Link
-              to="/labour"
+              to={activeTab === 'services' ? '/services' : activeTab === 'packages' ? '/packages' : '/labour'}
               style={{
-                border: 0,
-                background: 'none',
                 color: 'var(--primary)',
                 fontWeight: 700,
                 fontSize: 13,
@@ -151,6 +222,7 @@ export const DashboardPage = () => {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 4,
+                marginLeft: 'auto',
               }}
             >
               View all <ChevronRight size={14} />
@@ -158,66 +230,201 @@ export const DashboardPage = () => {
           </div>
 
           <div>
-            {labourListings.length === 0 ? (
-              <div style={{ padding: 24, textAlign: 'center', color: 'var(--muted)' }}>
-                <p style={{ margin: '0 0 14px' }}>
-                  No labour staff listed yet. List catering servers, cleaners, panthal riggers, or helpers to get hired.
-                </p>
-                <button className="btn btn-primary" onClick={() => navigate('/labour/new')}>
-                  <Plus size={15} /> Add Labour Service
-                </button>
-              </div>
-            ) : (
-              labourListings.map((item) => {
-                const cover = item.coverImage || item.cover_image || (Array.isArray(item.images) && item.images[0])
-                const displayPrice = item.price_display || (item.price_amount ? `₹${item.price_amount} / staff` : '₹550 / staff')
-                const isLive = item.status === 'LIVE'
+            {/* SERVICES TAB */}
+            {activeTab === 'services' && (
+              servicesList.length === 0 ? (
+                <div style={{ padding: 24, textAlign: 'center', color: 'var(--muted)' }}>
+                  <p style={{ margin: '0 0 14px' }}>
+                    No services added yet. Add catering, decoration, photography, etc. to get customer leads.
+                  </p>
+                  <button className="btn btn-primary" onClick={() => navigate('/services/new')}>
+                    <Plus size={15} /> Add Service
+                  </button>
+                </div>
+              ) : (
+                servicesList.slice(0, 5).map((item) => {
+                  const cover = item.coverImage || item.cover_image || (Array.isArray(item.images) && item.images[0])
+                  const priceDisplay = item.startingPrice || item.price
+                    ? `₹${Number(item.startingPrice || item.price).toLocaleString('en-IN')}`
+                    : 'Custom price'
+                  const isLive = item.status === 'LIVE' || !item.status
 
-                return (
-                  <div
-                    key={item.id}
-                    className="enquiry-row"
-                    onClick={() => navigate('/labour')}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    {cover ? (
-                      <img
-                        src={cover}
-                        alt={item.name}
-                        style={{
-                          width: 42,
-                          height: 42,
-                          borderRadius: 10,
-                          objectFit: 'cover',
-                          flex: '0 0 42px',
-                        }}
-                      />
-                    ) : (
-                      <div
-                        className="person"
-                        style={{
-                          background: '#eff6ff',
-                          color: '#2563eb',
-                          fontSize: 14,
-                        }}
-                      >
-                        👷
+                  return (
+                    <div
+                      key={item.id}
+                      className="enquiry-row"
+                      onClick={() => navigate('/services')}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      {cover ? (
+                        <img
+                          src={cover}
+                          alt={item.title}
+                          style={{
+                            width: 42,
+                            height: 42,
+                            borderRadius: 10,
+                            objectFit: 'cover',
+                            flex: '0 0 42px',
+                          }}
+                        />
+                      ) : (
+                        <div
+                          className="person"
+                          style={{
+                            background: '#eff6ff',
+                            color: '#2563eb',
+                            fontSize: 16,
+                          }}
+                        >
+                          🛠️
+                        </div>
+                      )}
+                      <div className="enq-main">
+                        <div className="enq-name" style={{ fontWeight: 700 }}>
+                          {item.title || item.name}
+                        </div>
+                        <div className="enq-meta">
+                          {item.category || 'General Service'} &middot; {priceDisplay}
+                        </div>
                       </div>
-                    )}
-                    <div className="enq-main">
-                      <div className="enq-name" style={{ fontWeight: 700 }}>
-                        {item.name}
-                      </div>
-                      <div className="enq-meta">
-                        {item.type || 'Event Staff'} &middot; {displayPrice}
-                      </div>
+                      <span className={`status ${isLive ? 'accepted' : 'declined'}`}>
+                        {isLive ? 'Live' : 'Paused'}
+                      </span>
                     </div>
-                    <span className={`status ${isLive ? 'accepted' : 'declined'}`}>
-                      {isLive ? 'Live' : 'Paused'}
-                    </span>
-                  </div>
-                )
-              })
+                  )
+                })
+              )
+            )}
+
+            {/* PACKAGES TAB */}
+            {activeTab === 'packages' && (
+              packagesList.length === 0 ? (
+                <div style={{ padding: 24, textAlign: 'center', color: 'var(--muted)' }}>
+                  <p style={{ margin: '0 0 14px' }}>
+                    No packages created yet. Bundle services into celebration packages to increase booking values.
+                  </p>
+                  <button className="btn btn-primary" onClick={() => navigate('/packages/new')}>
+                    <Plus size={15} /> Add Package
+                  </button>
+                </div>
+              ) : (
+                packagesList.slice(0, 5).map((pkg) => {
+                  const cover = pkg.coverImage || pkg.cover_image || (Array.isArray(pkg.images) && pkg.images[0])
+                  const price = pkg.price ? `₹${Number(pkg.price).toLocaleString('en-IN')}` : 'Custom package'
+                  const isLive = pkg.status === 'LIVE' || !pkg.status
+
+                  return (
+                    <div
+                      key={pkg.id}
+                      className="enquiry-row"
+                      onClick={() => navigate('/packages')}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      {cover ? (
+                        <img
+                          src={cover}
+                          alt={pkg.name}
+                          style={{
+                            width: 42,
+                            height: 42,
+                            borderRadius: 10,
+                            objectFit: 'cover',
+                            flex: '0 0 42px',
+                          }}
+                        />
+                      ) : (
+                        <div
+                          className="person"
+                          style={{
+                            background: '#fdf4ff',
+                            color: '#9333ea',
+                            fontSize: 16,
+                          }}
+                        >
+                          📦
+                        </div>
+                      )}
+                      <div className="enq-main">
+                        <div className="enq-name" style={{ fontWeight: 700 }}>
+                          {pkg.name}
+                        </div>
+                        <div className="enq-meta">
+                          {pkg.eventType || 'All Events'} &middot; {price}
+                        </div>
+                      </div>
+                      <span className={`status ${isLive ? 'accepted' : 'declined'}`}>
+                        {isLive ? 'Live' : 'Paused'}
+                      </span>
+                    </div>
+                  )
+                })
+              )
+            )}
+
+            {/* LABOUR STAFF TAB */}
+            {activeTab === 'labour' && (
+              labourListings.length === 0 ? (
+                <div style={{ padding: 24, textAlign: 'center', color: 'var(--muted)' }}>
+                  <p style={{ margin: '0 0 14px' }}>
+                    No labour staff listed yet. List catering servers, cleaners, panthal riggers, or helpers to get hired.
+                  </p>
+                  <button className="btn btn-primary" onClick={() => navigate('/labour/new')}>
+                    <Plus size={15} /> Add Labour Service
+                  </button>
+                </div>
+              ) : (
+                labourListings.map((item) => {
+                  const cover = item.coverImage || item.cover_image || (Array.isArray(item.images) && item.images[0])
+                  const displayPrice = item.price_display || (item.price_amount ? `₹${item.price_amount} / staff` : '₹550 / staff')
+                  const isLive = item.status === 'LIVE'
+
+                  return (
+                    <div
+                      key={item.id}
+                      className="enquiry-row"
+                      onClick={() => navigate('/labour')}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      {cover ? (
+                        <img
+                          src={cover}
+                          alt={item.name}
+                          style={{
+                            width: 42,
+                            height: 42,
+                            borderRadius: 10,
+                            objectFit: 'cover',
+                            flex: '0 0 42px',
+                          }}
+                        />
+                      ) : (
+                        <div
+                          className="person"
+                          style={{
+                            background: '#eff6ff',
+                            color: '#2563eb',
+                            fontSize: 14,
+                          }}
+                        >
+                          👷
+                        </div>
+                      )}
+                      <div className="enq-main">
+                        <div className="enq-name" style={{ fontWeight: 700 }}>
+                          {item.name}
+                        </div>
+                        <div className="enq-meta">
+                          {item.type || 'Event Staff'} &middot; {displayPrice}
+                        </div>
+                      </div>
+                      <span className={`status ${isLive ? 'accepted' : 'declined'}`}>
+                        {isLive ? 'Live' : 'Paused'}
+                      </span>
+                    </div>
+                  )
+                })
+              )
             )}
           </div>
         </div>

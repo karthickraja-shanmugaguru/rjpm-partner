@@ -26,7 +26,7 @@ export const SettingsPage = () => {
 
   const handleLogout = () => {
     logout()
-    showToast('Logged out of provider portal.')
+    showToast('Logged out of partner portal.')
     navigate('/login')
   }
 
@@ -120,7 +120,7 @@ export const SettingsPage = () => {
 
         <div style={{ marginTop: 28, paddingTop: 20, borderTop: '1px solid var(--border)' }}>
           <button className="btn btn-danger" onClick={handleLogout}>
-            {t('logout', 'Log out from Provider Portal')}
+            {t('logout', 'Log out from Partner Portal')}
           </button>
         </div>
       </div>

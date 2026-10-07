@@ -36,7 +36,7 @@ export const TopBar = () => {
           R
         </div>
         <span style={{ fontWeight: 800, letterSpacing: '-0.3px' }}>rjpm.in</span>
-        <span className="provider-pill">{t('providerPill', 'PROVIDER')}</span>
+        <span className="provider-pill">{t('providerPill', 'PARTNER')}</span>
       </Link>
 
       <div className="top-actions" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -102,7 +102,10 @@ export const TopBar = () => {
           title={t('previewCustomerView', 'Preview customer view')}
           onClick={() => {
             if (provider?.id) {
-              window.open(`http://localhost:3000/providers/${provider.id}`, '_blank')
+              const customerBase =
+                import.meta.env.VITE_CUSTOMER_URL ||
+                (window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://rjpm-customer.netlify.app')
+              window.open(`${customerBase}/providers/${provider.id}`, '_blank')
             } else {
               navigate('/profile')
             }

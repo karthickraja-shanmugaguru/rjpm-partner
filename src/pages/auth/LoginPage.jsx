@@ -39,7 +39,7 @@ export const LoginPage = () => {
     setLoading(true)
     try {
       await login(cleanPhone, password)
-      showToast('Welcome back to your Provider Portal!')
+      showToast('Welcome back to your Partner Portal!')
       navigate('/dashboard')
     } catch (err) {
       setError(err?.response?.data?.message || err?.message || 'Login failed. Please check your credentials.')
