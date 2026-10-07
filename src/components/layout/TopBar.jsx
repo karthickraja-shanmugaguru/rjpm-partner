@@ -5,6 +5,7 @@ import { useProvider } from '../../context/ProviderContext'
 import { useToast } from '../../context/ToastContext'
 import { useLanguage } from '../../context/LanguageContext'
 import { Bell, Eye } from 'lucide-react'
+import { getCustomerBaseUrl } from '../../utils/urlUtils'
 
 export const TopBar = () => {
   const { user } = useAuth()
@@ -102,10 +103,8 @@ export const TopBar = () => {
           title={t('previewCustomerView', 'Preview customer view')}
           onClick={() => {
             if (provider?.id) {
-              const customerBase =
-                import.meta.env.VITE_CUSTOMER_URL ||
-                (window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://rjpm-customer.netlify.app')
-              window.open(`${customerBase}/providers/${provider.id}`, '_blank')
+              const base = getCustomerBaseUrl()
+              window.open(`${base}/providers/${provider.id}`, '_blank')
             } else {
               navigate('/profile')
             }

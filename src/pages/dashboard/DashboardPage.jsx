@@ -139,8 +139,12 @@ export const DashboardPage = () => {
               <Star size={20} />
             </div>
           </div>
-          <div className="stat-value">{stats.avgRating > 0 ? stats.avgRating : '5.0'}</div>
-          <div className="delta">{stats.reviewsCount > 0 ? `${stats.reviewsCount} reviews` : 'Customer rating'}</div>
+          <div className="stat-value">
+            {stats.reviewsCount > 0 && Number(stats.avgRating) > 0 ? Number(stats.avgRating).toFixed(1) : '—'}
+          </div>
+          <div className="delta" style={{ color: stats.reviewsCount > 0 ? '#16a34a' : '#64748b' }}>
+            {stats.reviewsCount > 0 ? `${stats.reviewsCount} reviews` : 'No reviews yet'}
+          </div>
         </div>
       </div>
 

@@ -3,6 +3,7 @@ import { providerService } from '../../services/providerService'
 import { useProvider } from '../../context/ProviderContext'
 import { useToast } from '../../context/ToastContext'
 import { compressImageFile } from '../../utils/imageUtils'
+import { getCustomerBaseUrl } from '../../utils/urlUtils'
 import {
   Camera,
   Eye,
@@ -277,9 +278,10 @@ export const ProfilePage = () => {
   }
 
   const handleShareProfile = async () => {
+    const base = getCustomerBaseUrl()
     const publicUrl = provider?.id
-      ? `http://localhost:3000/providers/${provider.id}`
-      : 'http://localhost:3000'
+      ? `${base}/providers/${provider.id}`
+      : base
     const shareData = {
       title: formData.businessName || 'Event Service Provider on rjpm.in',
       text: `Book ${formData.businessName || 'verified event services'} on rjpm.in!`,
@@ -471,7 +473,8 @@ export const ProfilePage = () => {
               className="btn btn-secondary"
               onClick={() => {
                 if (provider?.id) {
-                  window.open(`http://localhost:3000/providers/${provider.id}`, '_blank')
+                  const base = getCustomerBaseUrl()
+                  window.open(`${base}/providers/${provider.id}`, '_blank')
                 } else {
                   showToast('Customer preview opened in browser.')
                 }

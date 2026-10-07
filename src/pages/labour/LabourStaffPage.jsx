@@ -4,6 +4,7 @@ import { providerService } from '../../services/providerService'
 import { useToast } from '../../context/ToastContext'
 import { useLanguage } from '../../context/LanguageContext'
 import { Plus, Users, Search, Edit2, Trash2, Pause, Play, RefreshCw, ExternalLink, Image as ImageIcon } from 'lucide-react'
+import { getCustomerBaseUrl } from '../../utils/urlUtils'
 
 export const LabourStaffPage = () => {
   const navigate = useNavigate()
@@ -111,7 +112,7 @@ export const LabourStaffPage = () => {
           </span>
         </div>
         <a
-          href="http://localhost:3000/labour"
+          href={`${getCustomerBaseUrl()}/labour`}
           target="_blank"
           rel="noreferrer"
           style={{ display: 'inline-flex', alignItems: 'center', gap: 4, color: '#2563eb', fontWeight: 600, textDecoration: 'none', fontSize: 13 }}
