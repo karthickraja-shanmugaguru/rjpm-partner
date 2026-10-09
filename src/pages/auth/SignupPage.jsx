@@ -33,11 +33,15 @@ export const SignupPage = () => {
   const { showToast } = useToast()
   const navigate = useNavigate()
 
+  // Pre-fill phone if passed from customer "Claim listing" button (e.g. ?phone=9003829989)
+  const queryPhone = new URLSearchParams(window.location.search).get('phone') || ''
+  const cleanInitialPhone = queryPhone.replace(/\D/g, '').slice(-10)
+
   const [formData, setFormData] = useState({
     businessName: '',
     ownerName: '',
     primaryCategory: 'Event Planning',
-    phone: '',
+    phone: cleanInitialPhone,
     password: '',
   })
   const [showPassword, setShowPassword] = useState(false)
@@ -77,7 +81,7 @@ export const SignupPage = () => {
 
     setLoading(true)
     try {
-      await signup({
+      const res = await signup({
         phone: formData.phone,
         password: formData.password,
         name: formData.ownerName.trim() || formData.businessName.trim(),
@@ -85,7 +89,15 @@ export const SignupPage = () => {
         businessName: formData.businessName.trim(),
         primaryCategory: formData.primaryCategory,
       })
-      showToast('Business registered successfully!')
+
+      if (res?.data?.autoClaimed) {
+        const stats = res?.data?.claimedStats
+        const total = stats?.totalListings || 1
+        showToast(`🎉 Existing profile found! ${total} listings claimed & live on your dashboard!`, 'success')
+      } else {
+        showToast('Business registered successfully!', 'success')
+      }
+
       navigate('/dashboard')
     } catch (err) {
       const msg = err?.response?.data?.message || err?.message || 'Registration failed. Please try again.'
