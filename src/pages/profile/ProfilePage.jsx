@@ -229,7 +229,7 @@ export const ProfilePage = () => {
   const handleSelectAllPresets = () => {
     const combined = Array.from(new Set([...serviceAreas, ...PRESET_LOCALITIES]))
     setServiceAreas(combined)
-    showToast('All preset Chennai localities added!')
+    showToast('All preset Rajapalayam localities added!')
   }
 
   const handleClearAllLocalities = () => {
@@ -454,7 +454,7 @@ export const ProfilePage = () => {
               <span className="chip" style={{ background: '#dcfce7', color: '#16834a', padding: '4px 10px', borderRadius: 16, fontSize: 12, display: 'inline-flex', alignItems: 'center', gap: 4 }}>
                 <CheckCircle2 size={13} /> Active Provider
               </span>
-              <span className="chip" style={{ background: '#f1f5f9', padding: '4px 10px', borderRadius: 16, fontSize: 12 }}>{formData.city || 'Chennai'}</span>
+              <span className="chip" style={{ background: '#f1f5f9', padding: '4px 10px', borderRadius: 16, fontSize: 12 }}>{formData.city || 'Rajapalayam'}</span>
               <span className="chip" style={{ background: '#f1f5f9', padding: '4px 10px', borderRadius: 16, fontSize: 12 }}>{formData.primaryCategory}</span>
             </div>
           </div>
@@ -834,7 +834,7 @@ export const ProfilePage = () => {
           </div>
           {serviceAreas.length === 0 ? (
             <div style={{ color: 'var(--muted)', fontSize: 13, fontStyle: 'italic', padding: '6px 0' }}>
-              No localities selected. Click the Chennai quick-select buttons above to add areas.
+              No localities selected. Click the Rajapalayam quick-select buttons above to add areas.
             </div>
           ) : (
             <div className="chips" style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
