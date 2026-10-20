@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useToast } from '../../context/ToastContext'
 import { Eye, EyeOff } from 'lucide-react'
+import { PartnerOnboardingGuide } from '../../components/PartnerOnboardingGuide'
 
 export const LoginPage = () => {
   const { login } = useAuth()
@@ -50,12 +51,13 @@ export const LoginPage = () => {
 
   return (
     <div id="auth" className="auth">
-      <div className="auth-card">
-        <div className="auth-logo">
-          <div className="logo">R</div>
-          <span>rjpm.in</span>
-          <span className="provider-pill">PARTNER</span>
-        </div>
+      <div className="auth-wrapper">
+        <div className="auth-card">
+          <div className="auth-logo">
+            <div className="logo">R</div>
+            <span>rjpm.in</span>
+            <span className="provider-pill">PARTNER</span>
+          </div>
 
         {error && (
           <div
@@ -146,7 +148,10 @@ export const LoginPage = () => {
           </div>
         </div>
       </div>
+
+      <PartnerOnboardingGuide />
     </div>
+  </div>
   )
 }
 

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useToast } from '../../context/ToastContext'
 import { Eye, EyeOff } from 'lucide-react'
+import { PartnerOnboardingGuide } from '../../components/PartnerOnboardingGuide'
 
 const BUSINESS_CATEGORIES = [
   'Event Planning',
@@ -114,12 +115,13 @@ export const SignupPage = () => {
 
   return (
     <div id="auth" className="auth">
-      <div className="auth-card">
-        <div className="auth-logo">
-          <div className="logo">R</div>
-          <span>rjpm.in</span>
-          <span className="provider-pill">PARTNER</span>
-        </div>
+      <div className="auth-wrapper">
+        <div className="auth-card">
+          <div className="auth-logo">
+            <div className="logo">R</div>
+            <span>rjpm.in</span>
+            <span className="provider-pill">PARTNER</span>
+          </div>
 
         {error && (
           <div
@@ -276,7 +278,10 @@ export const SignupPage = () => {
           </div>
         </div>
       </div>
+
+      <PartnerOnboardingGuide />
     </div>
+  </div>
   )
 }
 

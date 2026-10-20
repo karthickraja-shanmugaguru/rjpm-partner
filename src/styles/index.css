@@ -1462,22 +1462,235 @@ a {
   transform: translateX(20px);
 }
 
-/* AUTH PAGES */
+/* AUTH PAGES & ONBOARDING GUIDE */
 .auth {
   min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #eef5ff 0%, #f8fafc 50%, #ffffff 100%);
+  padding: 30px 20px;
+}
+
+.auth-wrapper {
+  width: min(1080px, 100%);
   display: grid;
-  place-items: center;
-  background: linear-gradient(135deg, #eef5ff, #fff);
-  padding: 20px;
+  grid-template-columns: minmax(360px, 460px) minmax(380px, 1fr);
+  gap: 32px;
+  align-items: start;
+}
+
+@media (max-width: 960px) {
+  .auth-wrapper {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+    gap: 24px;
+  }
 }
 
 .auth-card {
-  width: min(470px, 100%);
+  width: 100%;
   background: #fff;
   border: 1px solid var(--border);
   border-radius: 22px;
+  padding: 32px;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.06), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+}
+
+/* PARTNER ONBOARDING GUIDE CARD */
+.partner-guide-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 22px;
   padding: 30px;
-  box-shadow: var(--shadow);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+}
+
+.partner-guide-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  color: #1d4ed8;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.5px;
+  margin-bottom: 12px;
+}
+
+.partner-guide-title {
+  font-size: 20px;
+  font-weight: 850;
+  color: #0f172a;
+  margin: 0 0 6px 0;
+}
+
+.partner-guide-subtitle {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0 0 20px 0;
+  line-height: 1.5;
+}
+
+.partner-guide-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.partner-guide-step-item {
+  display: flex;
+  gap: 14px;
+  background: #f8fafc;
+  border: 1px solid #f1f5f9;
+  border-radius: 14px;
+  padding: 14px;
+  transition: all 0.2s ease;
+}
+
+.partner-guide-step-item:hover {
+  background: #ffffff;
+  border-color: #cbd5e1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.partner-guide-step-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.partner-step-icon-box {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.partner-step-badge {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.partner-guide-step-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.partner-step-titles {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.partner-step-main-title {
+  font-size: 14px;
+  font-weight: 800;
+  color: #1e293b;
+  margin: 0;
+}
+
+.partner-step-tamil-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: #475569;
+  background: #e2e8f0;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.partner-step-desc {
+  font-size: 12px;
+  color: #64748b;
+  line-height: 1.45;
+  margin: 0 0 8px 0;
+}
+
+.partner-step-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.partner-tag-pill {
+  font-size: 11px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  color: #334155;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.partner-guide-golive-box {
+  margin-top: 20px;
+  background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%);
+  border: 1px solid #bbf7d0;
+  border-radius: 14px;
+  padding: 14px;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.partner-golive-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: #dcfce7;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.partner-golive-heading {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 800;
+  color: #065f46;
+  margin-bottom: 4px;
+}
+
+.partner-golive-text {
+  font-size: 12px;
+  color: #047857;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.partner-guide-footer {
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.partner-support-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #475569;
+}
+
+.partner-support-link {
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.partner-support-link:hover {
+  text-decoration: underline;
 }
 
 .auth-logo {
